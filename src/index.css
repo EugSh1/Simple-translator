@@ -78,7 +78,7 @@ textarea:nth-of-type(2) {
     gap: 15px;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .row-container {
         flex-direction: column;
     }
