@@ -1,31 +1,45 @@
 import { ChangeEventHandler } from "react";
+import { Lang } from "../types";
 
-interface SelectLangProps {
-    defaultLang: string;
+interface IProps {
+    defaultLang: Lang;
     onChangeFunction: ChangeEventHandler<HTMLSelectElement>;
 }
 
-export default function SelectLang({ defaultLang, onChangeFunction }: SelectLangProps) {
+interface ILanguageOption {
+    language: Lang;
+    label: string;
+}
+
+const languageOptions: ILanguageOption[] = [
+    { language: "ar", label: "Arabic" },
+    { language: "br", label: "Belarusian" },
+    { language: "zh", label: "Chinese" },
+    { language: "nl", label: "Dutch" },
+    { language: "en", label: "English (British)" },
+    { language: "us", label: "English (American)" },
+    { language: "fr", label: "French" },
+    { language: "de", label: "German" },
+    { language: "hi", label: "Hindi" },
+    { language: "it", label: "Italian" },
+    { language: "ja", label: "Japanese" },
+    { language: "ko", label: "Korean" },
+    { language: "pl", label: "Polish" },
+    { language: "pt", label: "Portuguese" },
+    { language: "ru", label: "Russian" },
+    { language: "es", label: "Spanish" },
+    { language: "tr", label: "Turkish" },
+    { language: "uk", label: "Ukrainian" }
+];
+
+export default function SelectLang({ defaultLang, onChangeFunction }: IProps) {
     return (
         <select value={defaultLang} onChange={onChangeFunction}>
-            <option value="ar">Arabic</option>
-            <option value="br">Belarusian</option>
-            <option value="zh">Chinese</option>
-            <option value="nl">Dutch</option>
-            <option value="en">English (British)</option>
-            <option value="us">English (American)</option>
-            <option value="fr">French</option>
-            <option value="de">German</option>
-            <option value="hi">Hindi</option>
-            <option value="it">Italian</option>
-            <option value="ja">Japanese</option>
-            <option value="ko">Korean</option>
-            <option value="pl">Polish</option>
-            <option value="pt">Portuguese</option>
-            <option value="ru">Russian</option>
-            <option value="es">Spanish</option>
-            <option value="tr">Turkish</option>
-            <option value="uk">Ukrainian</option>
+            {languageOptions.map(({ language, label }: ILanguageOption) => (
+                <option key={language} value={language}>
+                    {label}
+                </option>
+            ))}
         </select>
     );
 }
