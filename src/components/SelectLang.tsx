@@ -1,13 +1,13 @@
 import { ChangeEventHandler } from "react";
-import { Lang } from "../types";
+import type { ILang } from "../types";
 
 interface IProps {
-    defaultLang: Lang;
+    defaultLang: ILang;
     onChangeFunction: ChangeEventHandler<HTMLSelectElement>;
 }
 
 interface ILanguageOption {
-    language: Lang;
+    language: ILang;
     label: string;
 }
 

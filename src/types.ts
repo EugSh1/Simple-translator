@@ -1,4 +1,4 @@
-export type Lang =
+export type ILang =
     | "ar"
     | "br"
     | "zh"

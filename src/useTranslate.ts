@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Lang } from "./types";
+import type { ILang } from "./types";
 
 export default function useTranslate() {
     const [sourceText, setSourceText] = useState<string>("");
     const [translatedText, setTranslatedText] = useState<string>("");
-    const [sourceLang, setSourceLang] = useState<Lang>("en");
-    const [targetLang, setTargetLang] = useState<Lang>("de");
+    const [sourceLang, setSourceLang] = useState<ILang>("en");
+    const [targetLang, setTargetLang] = useState<ILang>("de");
 
     useEffect(() => {
         if (sourceText.trim() === "") {
@@ -13,33 +13,30 @@ export default function useTranslate() {
             return;
         }
 
-        async function updateTranslationResult() {
-            await translate();
-        }
-        updateTranslationResult();
-    }, [sourceText, sourceLang, targetLang]);
+        (async () => {
+            try {
+                const response = await fetch(
+                    `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=${sourceLang}&tl=${targetLang}&q=${sourceText}`
+                );
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const result: any = await response.json();
 
-    async function translate(): Promise<void> {
-        try {
-            const response = await fetch(
-                `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=${sourceLang}&tl=${targetLang}&q=${sourceText}`
-            );
-            const result: any = await response.json();
+                if (!result) {
+                    throw new Error("Invalid translation result");
+                }
 
-            if (!result) {
-                throw new Error("Invalid translation result");
+                const translatedText = result[0]
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    .map((item: any) => item[0])
+                    .join(" ")
+                    .replace(/\s{2,}/g, " ");
+
+                setTranslatedText(translatedText);
+            } catch (error) {
+                throw new Error(`Translation error: ${(error as Error).message}`);
             }
-
-            const translatedText = result[0]
-                .map((item: any) => item[0])
-                .join(" ")
-                .replace(/\s{2,}/g, " ");
-
-            setTranslatedText(translatedText);
-        } catch (error) {
-            throw new Error(`Translation error: ${(error as Error).message}`);
-        }
-    }
+        })();
+    }, [sourceText, sourceLang, targetLang]);
 
     function swapLanguages(): void {
         setSourceLang((prev) => {

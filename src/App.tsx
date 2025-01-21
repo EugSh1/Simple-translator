@@ -1,5 +1,5 @@
 import SelectLang from "./components/SelectLang.tsx";
-import { Lang } from "./types.ts";
+import type { ILang } from "./types.ts";
 import useTranslate from "./useTranslate.ts";
 import TextareaAutosize from "react-textarea-autosize";
 import Toolbar from "./components/Toolbar.tsx";
@@ -32,7 +32,7 @@ export default function App() {
                     <SelectLang
                         defaultLang={sourceLang}
                         onChangeFunction={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                            setSourceLang(event.target.value as Lang)
+                            setSourceLang(event.target.value as ILang)
                         }
                     />
                     <TextareaAutosize
@@ -48,7 +48,7 @@ export default function App() {
                     <SelectLang
                         defaultLang={targetLang}
                         onChangeFunction={(event: React.ChangeEvent<HTMLSelectElement>) =>
-                            setTargetLang(event.target.value as Lang)
+                            setTargetLang(event.target.value as ILang)
                         }
                     />
                     <TextareaAutosize
