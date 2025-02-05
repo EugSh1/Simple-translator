@@ -38,7 +38,7 @@ export default function useTranslate() {
         })();
     }, [sourceText, sourceLang, targetLang]);
 
-    function swapLanguages(): void {
+    function swapLanguages() {
         setSourceLang((prev) => {
             setTargetLang(prev);
             return targetLang;
@@ -49,12 +49,12 @@ export default function useTranslate() {
         });
     }
 
-    function copyTranslation(): void {
+    function copyTranslation() {
         navigator.clipboard.writeText(translatedText);
         alert("Translation copied");
     }
 
-    function speakTranslation(): void {
+    function speakTranslation() {
         if ("speechSynthesis" in window) {
             const utterance = new SpeechSynthesisUtterance(translatedText);
             utterance.lang = targetLang;
@@ -64,7 +64,7 @@ export default function useTranslate() {
         }
     }
 
-    function clearText(): void {
+    function clearText() {
         setSourceText("");
         setTranslatedText("");
     }
